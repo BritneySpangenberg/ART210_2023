@@ -3,17 +3,24 @@ int _nPlanets = 100;
 float[] _speed = new float[_nPlanets];
 float[] _angle = new float[_nPlanets];
 float[] _dist = new float[_nPlanets];
+float[] _size = new float[_nPlanets];
+color[] _color = new color[_nPlanets];
+boolean[] _isMoon = new boolean[_nPlanets];
 
 
 void setup()
 {
   
-  size(1200,800);
+  /*size(1200,800);*/
+  fullScreen();
    for(int i = 0; i < _nPlanets; i = i + 1)
    {
-     _speed[i]=random(-1.8,1.8);
+     _speed[i]=random(-0.3,0.3);
      _angle[i]=0.0;
      _dist[i]=random(100,400);
+     _size[i]=random(1,50);
+     _color[i]=color(random(255),random(255),random(255));
+     _isMoon[i]=random(-1,1) > 0;
    }
    /*
   _speed[0]=1;
@@ -31,11 +38,11 @@ void draw()
   rect(0,0,width,height);
   
   translate(width/2,height/2);
-  
+  scale(0.5);
   
   for(int i = 0; i < _nPlanets; i = i + 1)
   {
-     drawPlanet(_angle[i], _dist[i]);
+     drawPlanet(_angle[i], _dist[i], _size[i], _color[i], _isMoon[i]);
      _angle[i] = _angle[i] + _speed[i];
   }
  
@@ -48,12 +55,12 @@ void draw()
 }
 
 
-void drawPlanet (float angle,float distance)
+void drawPlanet (float angle,float distance, float size, color c, boolean isMoon)
 { 
-  pushMatrix();
+  if(!isMoon) pushMatrix();
     rotate(radians(angle));
     translate(0,distance);
-    fill(255);
-    circle(0,0,40);  //drawing the circle
-  popMatrix();
+    fill(c);
+    circle(0,0,size);  //drawing the circle
+  if(!isMoon) popMatrix();
 }
